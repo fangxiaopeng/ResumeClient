@@ -1,5 +1,7 @@
 package fxp.com.resumeclient.base;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -10,7 +12,7 @@ import fxp.com.resumeclient.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public static boolean isOpenDistanceBack = true;
+    public static boolean isOpenDistanceBack = false;
 
     private boolean isExit = false;
 
@@ -174,4 +176,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_from_right);
     }
+
+    /**
+     * 设置屏幕只能竖屏
+     * @param activity
+     */
+    public void setActivityState(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
 }
