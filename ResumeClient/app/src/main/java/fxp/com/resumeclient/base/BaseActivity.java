@@ -4,8 +4,13 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import fxp.com.resumeclient.BaseApplication;
 import fxp.com.resumeclient.R;
@@ -53,49 +58,51 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract void initViews();
 
     /**
-     * 初始化组件的事件监听
-     */
-    public abstract void initListeners();
-
-    /**
      * 初始化数据源
      */
     public abstract void initDatas();
 
-	/*
-    @Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK){
-			exitBy2Click();
-		}
-		return false;
-	}
+    /**
+     * 初始化组件的事件监听
+     */
+    public abstract void initListeners();
 
-	*//**
+
+/*    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click();
+        }
+        return false;
+    }*/
+
+    /**
      * 双击返回键退出应用程序
-     *//*
+     */
     private void exitBy2Click() {
-		Timer tExit = null;
-		if(isExit == false){
-			isExit = true;	//准备退出
-			Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+        Timer tExit = null;
+        if (isExit == false) {
+            // 准备退出
+            isExit = true;
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
 
-//			设置定时器，如果2s内没有继续点击返回，取消退出准备
-			tExit = new Timer();
-			tExit.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					isExit = false; // 取消退出
-				}
-			}, 2000);
-		}else {
-//			finish();
-			MyApplication.exitApp();
+            // 设置定时器，如果2s内没有继续点击返回，取消退出准备
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    // 取消退出
+                    isExit = false;
+                }
+            }, 2000);
+        } else {
+            // finish();
+            BaseApplication.exitApp();
 
-			System.exit(0);
-		}
-	}
-*/
+            System.exit(0);
+        }
+    }
+
 
     /**
      * 界面滑动事件响应处理
@@ -179,6 +186,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 设置屏幕只能竖屏
+     *
      * @param activity
      */
     public void setActivityState(Activity activity) {
