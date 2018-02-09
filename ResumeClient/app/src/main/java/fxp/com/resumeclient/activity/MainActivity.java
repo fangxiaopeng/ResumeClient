@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import fxp.com.resumeclient.R;
+import fxp.com.resumeclient.adapter.MainViewLayoutAdapter;
 import fxp.com.resumeclient.base.BaseActivity;
+import fxp.com.resumeclient.fragment.MainFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -27,6 +31,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private FloatingActionButton floatingActionBtn;
 
+    private TabLayout tabLayout;
+
+    private ViewPager viewPager;
+
+    private MainViewLayoutAdapter mainViewLayoutAdapter;
+
     @Override
     public void initViews() {
 
@@ -38,6 +48,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
 
         initNavigationView();
+
+        if (viewPager != null) {
+            setViewPager(viewPager);
+        }
     }
 
     @Override
@@ -56,6 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         floatingActionBtn = (FloatingActionButton) findViewById(R.id.fab);
+        tabLayout = (TabLayout) findViewById(R.id.main_tab);
+        viewPager = (ViewPager) findViewById(R.id.main_view_pager);
     }
 
     /**
@@ -82,6 +98,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    /**
+     * 设置ViewPager+Fragment
+     *
+     * @param viewPager
+     */
+    private void setViewPager(ViewPager viewPager) {
+        mainViewLayoutAdapter = new MainViewLayoutAdapter(getSupportFragmentManager(), this);
+        mainViewLayoutAdapter.addFragment(new MainFragment().newInstance("Page1"), "Tab1");
+        mainViewLayoutAdapter.addFragment(new MainFragment().newInstance("Page2"), "Tab2");
+        mainViewLayoutAdapter.addFragment(new MainFragment().newInstance("Page3"), "Tab3");
+        mainViewLayoutAdapter.addFragment(new MainFragment().newInstance("Page4"), "Tab4");
+        viewPager.setAdapter(mainViewLayoutAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     /**
